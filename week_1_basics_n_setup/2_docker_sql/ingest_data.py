@@ -16,8 +16,11 @@ def ingest_from_csv(engine, csv_name, table_name):
 
     df = next(df_iter)
 
-    df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
-    df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+    try:
+        df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+        df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+    except:
+        pass
 
     df.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
 

@@ -1,0 +1,45 @@
+# Create a network
+docker network create pg-network
+
+# PostgreSQL
+docker run -it \
+    -e POSTGRES_USER="root" \
+    -e POSTGRES_PASSWORD="root" \
+    -e POSTGRES_DB="ny_taxi" \
+    -v $(pwd)/ny_taxi_postgress:/var/lib/postgresql/data \
+    -p 5432:5432 \
+    --network=pg-network \
+    --name=pg-database \
+    postgres:13
+
+# PGADMIN
+docker run -it \
+    -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+    -e PGADMIN_DEFAULT_PASSWORD="root" \
+    -e 8000:80 \
+    --network=pg-network \
+    --name=pgadmin \
+    dpage/pgadmin4
+
+# CSV
+export URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+python3 ingest_data.py \
+  --user=root \
+  --password=root \
+  --host=localhost \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=yellow_taxi_trips_csv_test \
+  --url=${URL}
+
+# Parquet
+export URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
+python3 ingest_data.py \
+  --user=root \
+  --password=root \
+  --host=localhost \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=yellow_taxi_trips_parquet \
+  --url=${URL}
+
