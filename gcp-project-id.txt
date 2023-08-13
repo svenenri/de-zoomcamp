@@ -1,3 +1,0 @@
-GCP Project ID: data-zoomcamp-de-course
-
-Service Account: dzc-de-course-user@data-zoomcamp-de-course.iam.gserviceaccount.com	
