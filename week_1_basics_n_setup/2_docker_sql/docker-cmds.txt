@@ -6,11 +6,12 @@ docker run -it \
     -e POSTGRES_USER="root" \
     -e POSTGRES_PASSWORD="root" \
     -e POSTGRES_DB="ny_taxi" \
-    -v $(pwd)/ny_taxi_postgress:/var/lib/postgresql/data \
+    -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
     -p 5432:5432 \
+    postgres:13
+
     --network=pg-network \
     --name=pg-database \
-    postgres:13
 
 # PGADMIN
 docker run -it \
@@ -29,17 +30,17 @@ python3 ingest_data.py \
   --host=localhost \
   --port=5432 \
   --db=ny_taxi \
-  --table_name=yellow_taxi_trips_csv_test \
+  --table_name=yellow_taxi_trips_csv \
   --url=${URL}
 
 # Parquet
-export URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
+export URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet" && \
 python3 ingest_data.py \
   --user=root \
   --password=root \
   --host=localhost \
   --port=5432 \
   --db=ny_taxi \
-  --table_name=yellow_taxi_trips_parquet \
+  --table_name=yellow_taxi_trips \
   --url=${URL}
 
