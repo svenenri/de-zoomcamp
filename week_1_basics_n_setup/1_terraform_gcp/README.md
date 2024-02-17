@@ -16,3 +16,4 @@
 ### Terraform Workshop for GCP Infra
 Your setup is ready!
 Now head to the [terraform](terraform) directory, and perform the execution steps to create your infrastructure.
+ 

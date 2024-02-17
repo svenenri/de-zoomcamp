@@ -44,3 +44,5 @@ python3 ingest_data.py \
   --table_name=yellow_taxi_trips \
   --url=${URL}
 
+# SSH to VM Machine
+ssh -i ~/.ssh/gcp/gcp-vm-key sewaweru@34.173.122.19
